@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2023_11_22_095915) do
 
   create_table "counties", force: :cascade do |t|
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 2023_11_22_095915) do
     t.string "zip"
     t.string "political_party"
     t.string "photo_url"
+
   end
 
   create_table "states", force: :cascade do |t|
