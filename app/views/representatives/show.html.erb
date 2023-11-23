@@ -1,12 +1,27 @@
+<style>
+  .overview {
+    text-align: center; /* Center inline elements horizontally */
+  }
+
+  .overview h1, .overview h2, .overview h3, .overview h4, .overview h5 {
+    margin: 0; /* Remove default margin to center vertically */
+  }
+
+  .overview img {
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center block element horizontally */
+  }
+</style>
+
 <div class="overview">
-  <img class="displayed" src="<%= @representative.photo %>" width="500" height="600">
+  <img class="displayed" src="<%= @representative.photo_url %>" width="500" height="600">
   <h1><%= @representative.name %></h1>
   <h2><%= @representative.title %></h2>
   <h3><%= @representative.party %></h3>
   <h4>
-    <%= @representative.street %>,
-    <%= @representative.city %>,
-    <%= @representative.state %>,
+    <%= @representative.street %>
+    <%= @representative.city %>
+    <%= @representative.state %>
     <%= @representative.zip %>
   </h4>
   <h5><%= @representative.ocdid %></h5>
