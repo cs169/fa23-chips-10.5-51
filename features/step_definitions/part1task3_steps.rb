@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given /Task 1.3: I am on the (.*) state page/ do |state|
   visit "/state/#{state}"
 end
