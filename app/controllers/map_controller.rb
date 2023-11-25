@@ -25,6 +25,7 @@ class MapController < ApplicationController
 
     @county_details = @state.counties.index_by(&:std_fips_code)
 
+    # ADDED THIS LINE FOR PART 1.3
     redirect_to search_representatives_path({ address: @county.name })
   end
 
