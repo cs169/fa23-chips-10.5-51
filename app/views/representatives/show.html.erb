@@ -1,0 +1,33 @@
+<style>
+  .overview {
+    text-align: center; /* Center inline elements horizontally */
+  }
+
+  .overview h1, .overview h2, .overview h3, .overview h4, .overview h5 {
+    margin: 0; /* Remove default margin to center vertically */
+  }
+
+  .overview .no-photo {
+    font-size: 50px;
+    color: #666;
+    margin: 150px 0; /* Add some margin for spacing */
+  }
+</style>
+
+<div class="overview">
+  <% if @representative.photo_url.present? %>
+    <img class="displayed" src="<%= @representative.photo_url %>" alt="<%= @representative.name %>" width="500" height="600">
+  <% else %>
+    <div class="no-photo">No photo</div>
+  <% end %>
+  <h1><%= @representative.name %></h1>
+  <h2><%= @representative.title %></h2>
+  <h3><%= @representative.party %></h3>
+  <h4>
+    <%= @representative.street %>
+    <%= @representative.city %>
+    <%= @representative.state %>
+    <%= @representative.zip %>
+  </h4>
+  <h5><%= @representative.ocdid %></h5>
+</div>
