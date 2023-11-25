@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'net/http'
 require 'json'
 
@@ -13,7 +14,6 @@ class Representative < ApplicationRecord
       title_temp = ''
 
       rep_info.offices.each do |office|
-        
         if office.official_indices.include? index
           title_temp = office.name
           ocdid_temp = office.division_id
@@ -21,44 +21,36 @@ class Representative < ApplicationRecord
       end
 
       addr = official.address
-      if addr
-        rep = Representative.find_or_create_by!({
-          name: official.name, 
-          ocdid: ocdid_temp, 
-          title: title_temp,
-          party: official.party, 
-          street: addr[0].line1, 
-          city: addr[0].city,
-          state: addr[0].state, 
-          zip: addr[0].zip, 
-          photo_url: official.photo_url})
-      else
-        rep = Representative.find_or_create_by!({
-          name: official.name, 
-          ocdid: ocdid_temp, 
-          title: title_temp,
-          party: official.party, 
-          photo_url: official.photo_url})
-      end
-
+      rep = update_rep(addr, official, ocdid_temp, title_temp)
       reps.push(rep)
-
     end
-
-    # # Test result
-    # reps.each do |representative|
-    #   puts "Name: #{representative.name}"
-    #   puts "Title: #{representative.title}"
-    #   puts "OCID: #{representative.ocdid}"
-    #   puts "Street: #{representative.street}"
-    #   puts "City: #{representative.city}"
-    #   puts "State: #{representative.state}"
-    #   puts "ZIP: #{representative.zip}"
-    #   puts "Political Party: #{representative.political_party}"
-    #   puts "Photo Url: #{representative.photo_url}"
-    #   puts "-----------------------"
-    # end
-
     reps
+  end
+
+  def self.update_rep(addr, official, ocdid_temp, title_temp)
+    attributes = base_attributes(official, ocdid_temp, title_temp)
+    attributes.merge!(address_attributes(addr)) if addr
+    Representative.find_or_create_by!(attributes)
+  end
+
+  # Common attributes
+  def self.base_attributes(official, ocdid_temp, title_temp)
+    {
+      name:      official.name,
+      ocdid:     ocdid_temp,
+      title:     title_temp,
+      party:     official.party,
+      photo_url: official.photo_url
+    }
+  end
+
+  # Address-related attributes
+  def self.address_attributes(addr)
+    {
+      street: addr[0].line1,
+      city:   addr[0].city,
+      state:  addr[0].state,
+      zip:    addr[0].zip
+    }
   end
 end

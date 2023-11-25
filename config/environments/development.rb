@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Application < Rails::Application
   config.web_console.whitelisted_ips = '73.252.190.231'
 end

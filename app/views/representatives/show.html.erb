@@ -7,14 +7,19 @@
     margin: 0; /* Remove default margin to center vertically */
   }
 
-  .overview img {
-    display: block; /* Make the image a block element */
-    margin: 0 auto; /* Center block element horizontally */
+  .overview .no-photo {
+    font-size: 50px;
+    color: #666;
+    margin: 150px 0; /* Add some margin for spacing */
   }
 </style>
 
 <div class="overview">
-  <img class="displayed" src="<%= @representative.photo_url %>" width="500" height="600">
+  <% if @representative.photo_url.present? %>
+    <img class="displayed" src="<%= @representative.photo_url %>" alt="<%= @representative.name %>" width="500" height="600">
+  <% else %>
+    <div class="no-photo">No photo</div>
+  <% end %>
   <h1><%= @representative.name %></h1>
   <h2><%= @representative.title %></h2>
   <h3><%= @representative.party %></h3>
