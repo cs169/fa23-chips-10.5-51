@@ -1,5 +1,6 @@
 Feature: task 1 and 2
 
+@load-seed-data @US49
 Scenario: Login&out
   Given task 1.23 I am on the login page
   When task 1.23 I click "Sign in with Google"
