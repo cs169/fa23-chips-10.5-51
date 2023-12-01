@@ -1,9 +1,12 @@
 # frozen_string_literal: true
+require 'httparty'
+require 'logger'
 
 class MyNewsItemsController < SessionController
   before_action :set_representative
   before_action :set_representatives_list, :set_issues_list
   before_action :set_news_item, only: %i[edit update destroy]
+
 
   def new
     @news_item = NewsItem.new
@@ -37,6 +40,30 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
+  # part 2.2
+  def search_news_with_api
+    news_key = Rails.application.credentials[:NEWS_API_KEY]
+
+    response = HTTParty.get("https://newsapi.org/v2/everything", {
+      query: {
+        apiKey: news_key,
+        q: "#{@representative.name} #{news_item_params[:issue]}",
+        sortBy: 'publishedAt',
+        pageSize: 5
+      }
+    })
+
+
+    # Parse the response JSON
+    news_data = JSON.parse(response.body)
+
+    puts(news_data)
+
+    @articles = news_data['articles']
+
+    render 'show_news'
+  end
+
   private
 
   def set_representative
@@ -65,4 +92,6 @@ class MyNewsItemsController < SessionController
     Neutrality", "Religious Freedom", "Border Security", "Minimum Wage",
     "Equal Pay"]
   end
+
+
 end
