@@ -10,3 +10,28 @@
     <hr>
   </div>
 <% end %>
+
+<%= form_with(url: representative_news_items_path(@representative), method: "post") do |form| %>
+  <fieldset>
+    <legend>Select an article:</legend>
+    <% @articles.each_with_index do |article, index| %>
+      <div>
+        <%= form.radio_button :selected_article, index %>
+        <%= form.label :selected_article_index, article['title'] %>
+        <%= link_to 'Read more', article['url'], target: '_blank' %>
+        <!-- Include hidden fields to store article attributes -->
+        <%= form.hidden_field "articles[#{index}][title]", value: article['title'] %>
+        <%= form.hidden_field "articles[#{index}][description]", value: article['description'] %>
+        <%= form.hidden_field "articles[#{index}][url]", value: article['url'] %>
+        <hr>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <div>
+    <%= form.label :rating, 'Rating' %>
+    <%= form.select :rating, options_for_select([1, 2, 3, 4, 5]) %>
+  </div>
+
+  <%= form.submit "Save" %>
+<% end %>

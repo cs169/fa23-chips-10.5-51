@@ -23,6 +23,7 @@ class MyNewsItemsController < SessionController
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
+
   end
 
   def update
@@ -41,7 +42,7 @@ class MyNewsItemsController < SessionController
   end
 
   # part 2.2
-  def search_news_with_api
+  def show_news
     news_key = Rails.application.credentials[:NEWS_API_KEY]
 
     response = HTTParty.get("https://newsapi.org/v2/everything", {
@@ -53,15 +54,12 @@ class MyNewsItemsController < SessionController
       }
     })
 
-
-    # Parse the response JSON
+    # Part 2.5
     news_data = JSON.parse(response.body)
-
-    puts(news_data)
 
     @articles = news_data['articles']
 
-    render 'show_news'
+    redirect_to show_news
   end
 
   private
