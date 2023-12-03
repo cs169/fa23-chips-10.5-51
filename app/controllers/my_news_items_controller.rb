@@ -37,8 +37,7 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
-<<<<<<< HEAD
-=======
+
   # part 2.2
   def search_news_with_api
     news_key = Rails.application.credentials[:NEWS_API_KEY]
@@ -63,7 +62,6 @@ class MyNewsItemsController < SessionController
     render 'show_news'
   end
 
->>>>>>> parent of 24c6f46... add edit news item page
   private
 
   def set_representative
