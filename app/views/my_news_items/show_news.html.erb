@@ -1,0 +1,12 @@
+<h1>Top 5 News for <%= @representative.name %></h1>
+
+<% @articles.each do |article| %>
+  <div>
+    <h2><%= article['title'] %></h2>
+    <p><%= article['description'] %></p>
+    <p><strong>Published At:</strong> <%= article['publishedAt'] %></p>
+    <p><strong>Source:</strong> <%= article['source']['name'] %></p>
+    <p><strong>URL:</strong> <%= link_to 'Read more', article['url'], target: '_blank' %></p>
+    <hr>
+  </div>
+<% end %>

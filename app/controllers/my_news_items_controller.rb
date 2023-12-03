@@ -37,6 +37,33 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
+<<<<<<< HEAD
+=======
+  # part 2.2
+  def search_news_with_api
+    news_key = Rails.application.credentials[:NEWS_API_KEY]
+
+    response = HTTParty.get("https://newsapi.org/v2/everything", {
+      query: {
+        apiKey: news_key,
+        q: "#{@representative.name} #{news_item_params[:issue]}",
+        sortBy: 'publishedAt',
+        pageSize: 5
+      }
+    })
+
+
+    # Parse the response JSON
+    news_data = JSON.parse(response.body)
+
+    puts(news_data)
+
+    @articles = news_data['articles']
+
+    render 'show_news'
+  end
+
+>>>>>>> parent of 24c6f46... add edit news item page
   private
 
   def set_representative
