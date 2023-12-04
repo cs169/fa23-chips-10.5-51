@@ -32,7 +32,7 @@ Rails.application.routes.draw do
             :as                                                    => :new_my_news_item
         post '/representatives/:representative_id/my_news_item/new' => 'my_news_items#create',
         :as                                                    => :create_my_news_item
-        get '/representatives/:representative_id/my_news_item/top_articles' => 'my_news_items#get_news_with_api',
+        get '/representatives/:representative_id/my_news_item/top_articles' => 'my_news_items#news_with_api',
             :as                                                    => :top_articles
         match '/representatives/:representative_id/my_news_item/top_articles', to:  'my_news_items#create',
                                                                       via: [:post]
