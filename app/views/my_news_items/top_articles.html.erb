@@ -1,4 +1,15 @@
-<h1>Top 5 News for <%= @representative.name %></h1>
+<center>
+<h1>Edit News Item</h1>
+</center>
+
+<body style="margin: 50px;">
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+<h2>Top 5 News for <%= link_to @representative.name, representative_path(@representative) %></h2>
+<h2>Issue: <%= params[:news_item][:issue] %></h2>
+
 
 <%= form_with(url: representative_create_my_news_item_path(@representative), method: "post") do |form| %>
   <fieldset>
@@ -21,6 +32,7 @@
       </div>
     <% end %>
   </fieldset>
+</body>
 
   <div>
     <%= form.label :"news_item[rating]", 'Rating' %>
@@ -28,5 +40,14 @@
     
   </div>
 
+
+
   <%= form.submit "Save" %>
 <% end %>
+
+
+      <!-- Add 'View New Article' button -->
+      <%= link_to 'View New Article', representative_news_items_path(@representative), class: 'btn btn-primary' %>
+    </div>
+  </div>
+</div>
