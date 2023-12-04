@@ -1,38 +1,31 @@
 <h1>Top 5 News for <%= @representative.name %></h1>
 
-<% @articles.each do |article| %>
-  <div>
-    <h2><%= article["title"] %></h2>
-    <p><%= article["description"] %></p>
-    <p><strong>Published At:</strong> <%= article['publishedAt'] %></p>
-    <p><strong>URL:</strong> <%= link_to 'Read more', article['url'], target: '_blank' %></p>
-    <hr>
-  </div>
-<% end %>
-
 <%= form_with(url: representative_create_my_news_item_path(@representative), method: "post") do |form| %>
   <fieldset>
     <legend>Select an article:</legend>
     <% @articles.each_with_index do |article, index| %>
       <div>
-        <%= form.radio_button :selected_article_index, index %>
-        <%= form.label :selected_article_index, article['title'] %>
-        <%= link_to 'Read more', article['url'], target: '_blank' %>
+        <%= form.radio_button :articleindex, index, id: "article#{index}" %>
+        <%= form.label "article_#{index}" do %>
+          <strong>Title:</strong> <%= article['title'] %><br>
+          <strong>Link:</strong><%= link_to article['url'], article['url'], target: '_blank' %><br>
+          <strong>Description:</strong> <%= article['description'] %><br>
+        <% end %>
 
-        <!-- The news field is not present for I don't know what it should be -->
+        <!-- Hidden fields to store article attributes -->
         <%= form.hidden_field "news_item[title]", value: article['title'] %>
         <%= form.hidden_field "news_item[description]", value: article['description'] %>
         <%= form.hidden_field "news_item[link]", value: article['url'] %>
         <%= form.hidden_field "news_item[representative_id]", value: params[:representative_id] %>
-        <%= form.hidden_field "news_item[issue]", value: params[:news_item][:issue] %>
-        <hr>
+        <%= form.hidden_field "news_item[issue]", value: params[:news_item][:issue] %>        <hr>
       </div>
     <% end %>
   </fieldset>
 
   <div>
-    <%= form.label :rating, 'Rating' %>
-    <%= form.select :rating, options_for_select([1, 2, 3, 4, 5]) %>
+    <%= form.label :"news_items[rating]", 'Rating' %>
+    <%= form.select :"news_items[rating]", options_for_select([1, 2, 3, 4, 5]) %>
+    
   </div>
 
   <%= form.submit "Save" %>
