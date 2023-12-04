@@ -42,24 +42,58 @@ class MyNewsItemsController < SessionController
   end
 
   # part 2.2
-  def show_news
+  def search_news_with_api
     news_key = Rails.application.credentials[:NEWS_API_KEY]
-
-    response = HTTParty.get("https://newsapi.org/v2/everything", {
-      query: {
-        apiKey: news_key,
-        q: "#{@representative.name} #{news_item_params[:issue]}",
-        sortBy: 'publishedAt',
-        pageSize: 5
-      }
-    })
+    # response = HTTParty.get("https://newsapi.org/v2/everything", {
+    #   query: {
+    #     apiKey: news_key,
+    #     q: "#{@representative.name} #{news_item_params[:issue]}",
+    #     sortBy: 'publishedAt',
+    #     pageSize: 5
+    #   }
+    # })
 
     # Part 2.5
-    news_data = JSON.parse(response.body)
+    # news_data = JSON.parse(response.body)
+    news_data = {
+      "status": "ok",
+      "totalResults": 2,
+      "articles": [
+        {
+          "source": {
+            "id": "techcrunch",
+            "name": "TechCrunch"
+          },
+          "author": "John Doe",
+          "title": "Breaking Technology News",
+          "description": "Latest technology news about the world's best tech companies.",
+          "url": "http://techcrunch.com/example-news-article",
+          "urlToImage": "http://techcrunch.com/example-image.jpg",
+          "publishedAt": "2021-01-01T12:00:00Z",
+          "content": "Detailed content of the article..."
+        },
+        {
+          "source": {
+            "id": "the-verge",
+            "name": "The Verge"
+          },
+          "author": "Jane Smith",
+          "title": "New Advances in Tech",
+          "description": "A deep dive into new technologies shaping the future.",
+          "url": "http://theverge.com/example-news-article",
+          "urlToImage": "http://theverge.com/example-image.jpg",
+          "publishedAt": "2021-01-02T15:00:00Z",
+          "content": "More detailed content of the article..."
+        }
+      ]
+    }
 
-    @articles = news_data['articles']
+    @articles = news_data[:articles]
+    puts "___________________________________________"
+    puts @articles
+    puts news_data
 
-    redirect_to show_news
+    render 'show_news'
   end
 
   private
@@ -90,6 +124,4 @@ class MyNewsItemsController < SessionController
     Neutrality", "Religious Freedom", "Border Security", "Minimum Wage",
     "Equal Pay"]
   end
-
-
 end

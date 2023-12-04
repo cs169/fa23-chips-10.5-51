@@ -2,27 +2,27 @@
 
 <% @articles.each do |article| %>
   <div>
-    <h2><%= article['title'] %></h2>
-    <p><%= article['description'] %></p>
+    <h2><%= article[:title] %></h2>
+    <p><%= article[:description] %></p>
     <p><strong>Published At:</strong> <%= article['publishedAt'] %></p>
-    <p><strong>Source:</strong> <%= article['source']['name'] %></p>
     <p><strong>URL:</strong> <%= link_to 'Read more', article['url'], target: '_blank' %></p>
     <hr>
   </div>
 <% end %>
 
-<%= form_with(url: representative_news_items_path(@representative), method: "post") do |form| %>
+<%= form_with(url: representative_new_my_news_item_path(@representative), method: "post") do |form| %>
   <fieldset>
     <legend>Select an article:</legend>
     <% @articles.each_with_index do |article, index| %>
       <div>
-        <%= form.radio_button :selected_article, index %>
+        <%= form.radio_button :selected_article_index, index %>
         <%= form.label :selected_article_index, article['title'] %>
         <%= link_to 'Read more', article['url'], target: '_blank' %>
-        <!-- Include hidden fields to store article attributes -->
-        <%= form.hidden_field "articles[#{index}][title]", value: article['title'] %>
-        <%= form.hidden_field "articles[#{index}][description]", value: article['description'] %>
-        <%= form.hidden_field "articles[#{index}][url]", value: article['url'] %>
+
+        <!-- Updated hidden fields to nest under the news_item key -->
+        <%= form.hidden_field "news_item[title]", value: article['title'] %>
+        <%= form.hidden_field "news_item[description]", value: article['description'] %>
+        <%= form.hidden_field "news_item[url]", value: article['url'] %>
         <hr>
       </div>
     <% end %>
