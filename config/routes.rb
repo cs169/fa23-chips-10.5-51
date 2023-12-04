@@ -30,7 +30,12 @@ Rails.application.routes.draw do
         resources :news_items, only: %i[index show]
         get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#new',
             :as                                                    => :new_my_news_item
-        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#search_news_with_api',
+
+        # match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#search_news_with_api',
+        #                                                               via: [:post]
+        get '/representatives/:representative_id/my_news_item/add' => 'my_news_items#search_news_with_api',
+            :as                                                    => :add_my_news_item
+        match '/representatives/:representative_id/my_news_item/add', to:  'my_news_items#create',
                                                                       via: [:post]
         get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
             :as                                                    => :edit_my_news_item

@@ -1,0 +1,41 @@
+<h1>Top 5 News for <%= @representative.name %></h1>
+
+<% @articles.each do |article| %>
+  <div>
+    <h2><%= article[:title] %></h2>
+    <p><%= article[:description] %></p>
+    <p><strong>Published At:</strong> <%= article['publishedAt'] %></p>
+    <p><strong>URL:</strong> <%= link_to 'Read more', article['url'], target: '_blank' %></p>
+    <hr>
+  </div>
+<<<<<<< HEAD:app/views/my_news_items/show_news.html.erb
+<% end %>
+=======
+<% end %>
+
+<%= form_with(url: representative_new_my_news_item_path(@representative), method: "post") do |form| %>
+  <fieldset>
+    <legend>Select an article:</legend>
+    <% @articles.each_with_index do |article, index| %>
+      <div>
+        <%= form.radio_button :selected_article_index, index %>
+        <%= form.label :selected_article_index, article['title'] %>
+        <%= link_to 'Read more', article['url'], target: '_blank' %>
+
+        <!-- Updated hidden fields to nest under the news_item key -->
+        <%= form.hidden_field "news_item[title]", value: article['title'] %>
+        <%= form.hidden_field "news_item[description]", value: article['description'] %>
+        <%= form.hidden_field "news_item[url]", value: article['url'] %>
+        <hr>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <div>
+    <%= form.label :rating, 'Rating' %>
+    <%= form.select :rating, options_for_select([1, 2, 3, 4, 5]) %>
+  </div>
+
+  <%= form.submit "Save" %>
+<% end %>
+>>>>>>> a8947e64fb59cc9a60d61023c33fc1f35712235e:app/views/my_news_items/add.html.erb
