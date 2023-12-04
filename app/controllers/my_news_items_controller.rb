@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "httparty"
 
 class MyNewsItemsController < SessionController
   before_action :set_representative
@@ -12,7 +13,11 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
+    puts "--------------------"
     @news_item = NewsItem.new(news_item_params)
+    puts news_item_params
+    puts @representative
+
     if @news_item.save
       @representative.news_items << @news_item # added for task 2.1: to make news items get displayed in index
       redirect_to representative_news_item_path(@representative, @news_item),
@@ -39,58 +44,29 @@ class MyNewsItemsController < SessionController
 
 
   # part 2.2
-  def search_news_with_api
+  def get_news_with_api
+    @representative = Representative.find(params[:news_item][:representative_id])
     news_key = Rails.application.credentials[:NEWS_API_KEY]
-    # response = HTTParty.get("https://newsapi.org/v2/everything", {
-    #   query: {
-    #     apiKey: news_key,
-    #     q: "#{@representative.name} #{news_item_params[:issue]}",
-    #     sortBy: 'publishedAt',
-    #     pageSize: 5
-    #   }
-    # })
+
+    # replaced by mock data, for the news api have limited requests
+    response = HTTParty.get("https://newsapi.org/v2/everything", {
+      query: {
+        apiKey: news_key,
+        q: "#{@representative.name} #{news_item_params[:issue]}",
+        sortBy: 'publishedAt',
+        pageSize: 5
+      }
+    })
+
+    news_data = JSON.parse(response.body)
 
 
-    # Part 2.5
-    # news_data = JSON.parse(response.body)
-    news_data = {
-      "status": "ok",
-      "totalResults": 2,
-      "articles": [
-        {
-          "source": {
-            "id": "techcrunch",
-            "name": "TechCrunch"
-          },
-          "author": "John Doe",
-          "title": "Breaking Technology News",
-          "description": "Latest technology news about the world's best tech companies.",
-          "url": "http://techcrunch.com/example-news-article",
-          "urlToImage": "http://techcrunch.com/example-image.jpg",
-          "publishedAt": "2021-01-01T12:00:00Z",
-          "content": "Detailed content of the article..."
-        },
-        {
-          "source": {
-            "id": "the-verge",
-            "name": "The Verge"
-          },
-          "author": "Jane Smith",
-          "title": "New Advances in Tech",
-          "description": "A deep dive into new technologies shaping the future.",
-          "url": "http://theverge.com/example-news-article",
-          "urlToImage": "http://theverge.com/example-image.jpg",
-          "publishedAt": "2021-01-02T15:00:00Z",
-          "content": "More detailed content of the article..."
-        }
-      ]
-    }
+    # news_data = 
 
-    @articles = news_data[:articles]
-    puts "___________________________________________"
-    puts @articles
-    puts news_data
-    render 'show_news'
+    @articles = news_data["articles"]
+
+    render("top_articles")
+
   end
 
   private
