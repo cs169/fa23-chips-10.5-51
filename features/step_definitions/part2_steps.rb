@@ -22,5 +22,5 @@ When /Part 2: I select (.*) from the Issues dropdown/ do |issue|
 end
 
 When /Part 2: I choose the third article/ do
-  choose('selected_article_index_2')
+  choose('article2')
 end

@@ -13,7 +13,9 @@ Scenario: add new news article
   When Part 2: I select Joseph R. Biden from the Representatives dropdown
   When Part 2: I select Free Speech from the Issues dropdown
   When task 1.23 I click "commit"
-  Then Task 1.3: I should see "Top 5 News for Joseph R. Biden"
+  Then Task 1.3: I should see "Representative: Joseph R. Biden"
+  Then Task 1.3: I should see "Issue: Free Speech"
+  Then Task 1.3: I should see "Select an article:"
   When Part 2: I choose the third article
   When task 1.23 I click "commit"
   Then Task 1.3: I should see "Daily Press Briefing by the Office of the Spokesperson for the Secretary-General"
