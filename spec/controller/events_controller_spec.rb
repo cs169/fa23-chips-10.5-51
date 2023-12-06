@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/controllers/events_controller_spec.rb
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
@@ -26,7 +25,10 @@ RSpec.describe EventsController, type: :controller do
     end
 
     context 'when filtered by county' do
-      before { get :index, params: { filter_by: 'state-county', state: 'NY', county: '047' } }
+      before do
+        filter_params = { filter_by: 'state-county', state: 'NY', county: '047' }
+        get :index, params: filter_params
+      end
 
       it 'assigns filtered events to @events' do
         expect(assigns(:events)).to match_array(events)
